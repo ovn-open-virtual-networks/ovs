@@ -6349,13 +6349,12 @@ dpif_netdev_meter_set(struct dpif *dpif, ofproto_meter_id meter_id,
     for (i = 0; i < config->n_bands; ++i) {
         uint32_t band_max_delta_t;
 
-        /* Set burst size to a workable value if none specified. */
-        if (config->bands[i].burst_size == 0) {
-            config->bands[i].burst_size = config->bands[i].rate;
+        /* Set burst size to a workable value if specified. */
+        if (config->flags & OFPMF13_BURST) {
+            meter->bands[i].burst_size = config->bands[i].burst_size;
         }
 
         meter->bands[i].rate = config->bands[i].rate;
-        meter->bands[i].burst_size = config->bands[i].burst_size;
         /* Start with a full bucket. */
         meter->bands[i].bucket =
             (meter->bands[i].burst_size + meter->bands[i].rate) * 1000ULL;

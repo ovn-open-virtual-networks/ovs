@@ -3761,7 +3761,7 @@ dpif_netlink_meter_set__(struct dpif *dpif_, ofproto_meter_id meter_id,
         nl_msg_put_u32(&buf, OVS_BAND_ATTR_RATE, band->rate);
         nl_msg_put_u32(&buf, OVS_BAND_ATTR_BURST,
                        config->flags & OFPMF13_BURST ?
-                       band->burst_size : band->rate);
+                       band->burst_size : 0);
         nl_msg_end_nested(&buf, band_offset);
     }
     nl_msg_end_nested(&buf, bands_offset);
